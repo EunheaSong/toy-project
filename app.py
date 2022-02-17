@@ -9,6 +9,12 @@ db = client.toy   #db폴더명 toy로 설정.
 def home():
     return render_template('index.html')
 
+@app.route('/study_page_api', methods=['GET'])
+def study_page_get():
+   post_list = list(db.posts.find({},{'_id':False}))
+
+   return jsonify({'post': post_list})
+
 @app.route('/test', methods=['GET'])
 def test_get():
    title_receive = request.args.get('title_give')

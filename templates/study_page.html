@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gamja+Flower&family=Jua&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>Title</title>
+    <style>
+        .study_page_wrap {
+            {#background-image: url("");#}
+            {#background-size: cover;#}
+            {#background-position: center;#}
+        }
+        .study_page_title {
+            background-color: green;
+            background-size: cover;
+            background-position: center;
+
+            width: 500px;
+            height: 100px;
+
+            text-align: center;
+
+            padding-top: 25px;
+            border-radius: 10px;
+
+            margin: 20px auto 0px auto;
+        }
+
+        .study_page_post_wrap {
+            margin: 20px auto 0px auto;
+            width: 18rem;
+
+
+        }
+        .card-text {
+            width: 16rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+
+        }
+        a:link {
+            text-decoration : none;
+            color: black;
+        }
+        a:visited {
+            text-decoration : none;
+            color: black;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            show_post();
+        });
+
+        function show_post() {
+            $.ajax({
+                type: 'GET',
+                url: '/study_page_api',
+                data: {},
+                success: function (response) {
+                    let rows = response['post']
+                    for (let i = 0; i < rows.length; i++){
+                        let name = rows[i]['name']
+                        let title = rows[i]['title']
+                        let content = rows[i]['content']
+                        let on_off = rows[i]['on_off']
+                        let time = rows[i]['time']
+                        let num = rows[i]['num']
+
+                        let temp_html = `<div class="study_page_post">
+                                            <a href="#" onclick="javascript:post_go(${num})">
+                                                <div class="card border-dark mb-3" style="max-width: 18rem;">
+                                                    <div class="card-header">${on_off}</div>
+                                                    <div class="card-body text-dark">
+                                                        <h5 class="card-title">${title}</h5>
+                                                        <p class="time">${time}</p>
+                                                        <p class="card-text">${content}</p>
+                                                    </div>
+                                                    <div class="card-footer bg-transparent border-dark">${name}</div>
+                                                </div>
+                                            </a>
+                                        </div>`
+
+                        $('#study_page_post_box').append(temp_html)
+                    }
+
+                }
+            });
+        }
+        function post_go(num) {
+            console.log(num)
+        }
+    </script>
+</head>
+<body>
+    <div class="study_page_wrap">
+        <div class="study_page_title">
+            <h1>온,오프라인 스터디</h1>
+        </div>
+        <div class="study_page_post_wrap" >
+            <div id="study_page_post_box">
+                <div class="study_page_post">
+                    <a href="study_page_offline.html">
+                        <div class="card border-dark mb-3" style="max-width: 18rem;">
+                            <div class="card-header">온라인/오프라인</div>
+                            <div class="card-body text-dark">
+                                <h5 class="card-title">게시물 제목</h5>
+                                <p class="time">시간</p>
+                                <p class="card-text">게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-dark">작성자</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <button onclick="history.back()" type="button" class="btn btn-outline-dark" style="width: 90px;">뒤로가기</button>
+        </div>
+
+    </div>
+</body>
+</html>
