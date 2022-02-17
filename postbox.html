@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>토이프로젝트</title>
+
+<!--    - 넘버링 - num-->
+<!--    - 작성자 - name-->
+<!--    - 제목 - title-->
+<!--    - 내용 - content-->
+<!--    - 온라인 오프라인 - on_off-->
+<!--    - 시간 - time-->
+<!--    - 조회수 - hit-->
+<!--    - 지역 - address-->
+<!--    - db 폴더명 - posts-->
+<!--    - db 리스트명 - post_list (파이썬에서 db조회할때 쓰는 거)-->
+
+    <style>
+        .postbox {
+            width: 700px;
+            height: auto;
+
+            min-height: 650px;
+            max-width: 90%;
+            max-height: 90%;
+
+            color: black;
+
+            border: 0.5px solid gray;
+            border-radius: 10px;
+            box-shadow: 0px 0px 2px 0px gray;
+
+            margin: 50px auto 50px auto;
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .post-title {
+            width: 700px;
+            height: 35px;
+            max-width: 95%;
+
+            border: 1px solid white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 2px 0px gray;
+
+            margin: 10px 0px 10px 0px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+
+        }
+        .on-off {
+            width: 70px;
+            margin: auto 1px auto 3px;
+        }
+        .address {
+            width: 50px;
+            margin: auto 0 auto 0;
+        }
+        .post-title > p {
+            width : 80%;
+            white-space : nowrap;
+            overflow : hidden;
+            text-overflow : ellipsis;
+
+            margin-top: 15px;
+        }
+        .text-box {
+            width: 700px;
+            height: auto;
+            min-height: 450px;
+            max-width: 93%;
+
+            border: 0.5px solid white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 2px 0px gray;
+
+            padding: 13px 13px 13px 13px;
+        }
+        .text {
+            width: 100%;
+            min-height: 380px;
+            height: auto;
+        }
+        .comment-pox {
+            width: 700px;
+            height: auto;
+            min-height: 50px;
+            max-width: 93%;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            margin: 10px 10px 15px 0px;
+        }
+        .comment-pox > textarea{
+            width: 100%;
+            height: 50px;
+            resize: none;
+
+            margin: 5px 10px 0px 10px;
+            border: 0.5px solid white;
+            border-radius: 5px;
+            box-shadow: 0px 0px 2px 0px gray;
+
+            outline-color: gray;
+        }
+        .close {
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            align-items: center;
+
+            margin-top: 10px;
+        }
+        .card-box {
+            width: 700px;
+            height: auto;
+            min-height: 20px;
+            max-width: 90%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .card{
+            width: 700px;
+            height: auto;
+            min-height: 20px;
+            max-width: 100%;
+
+            border: 0.5px solid white;
+            border-radius: 5px;
+            box-shadow: 0px 0px 2px 0px gray;
+
+            margin-bottom:10px;
+
+            flex-direction: row;
+        }
+        .card > p {
+            width: 500px;
+            margin: 5px 10px 5px 10px;
+
+        }
+        .card > button {
+            width: 100px;
+            max-height: 100%;
+            position: relative;
+            margin: auto;
+
+        }
+
+    </style>
+
+    <script>
+        $(document).ready(function () {  //페이지가 로드되면 post_open를 시작한다.즉,게시글 내용을 보여준다.
+            post_open();
+        });
+
+        function post_open() { //게시글의 전체 내용 받아오는 함수.
+             $.ajax({
+                type: "GET",
+                url: "/postbox",
+                data: {},
+                success: function (response) {
+                    let rows = response["post"]
+                    for (let i = 0; i < rows.length; i++){
+                        let on_off = rows[i]['on_off'] //온라인인지 오프라인인지
+                        let address = rows[i]['address'] //지역
+                        let title = rows[i]['title'] //제목
+                        let name = rows[i]['name'] //작성자
+                        let time = rows[i]['time'] //시간
+                        let content = rows[i]['content'] //내용
+                        let comment = rows[i]['comment'] //덧글
+
+                        let temp_html = ``
+                        if (on_off == 온라인) {
+                            temp_html = `<span class="on-off">&#128187;On&#128187;</span>
+                                         <span class="address">-${address}-</span>
+                                         <p><strong>${title}</strong></p>`
+                        } else {
+                            temp_html = `<span class="on-off">🙋Off🙋</span>
+                                         <span class="address">-${address}-</span>
+                                         <p><strong>${title}</strong></p>`
+                        }
+                        let temp_html02 = `<p>작성자 : ${name}</p>
+                                           <p>스터디 시간 : ${time}</p>
+                                           <p>${content}</p>`
+                        let temp_html03 = `<div class="card" id="card">
+                                           <p>${comment}</p>
+                                           <button type="button" class="btn btn-outline-danger">삭제하기</button>
+                                           </div>`
+
+                        $('#post-title').append(temp_html)
+                        $('#text').append(temp_html02)
+                        $('#card-box').append(temp_html03)
+                    }
+                }
+            });
+        }
+         function save_comment() { //덧글을 db에 저장하고, 새로고침되어 덧글이 보이게함.
+            let comments = $('#comment').val()
+            $.ajax({
+                type: "POST",
+                url: "/postbox",
+                data: {comment_give: comments},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <div class="postbox">
+        <div class="post-title" id="post-title">
+            <span class="on-off">🙋Off🙋</span>
+            <span class="address">경기</span>
+            <p><strong>게시글 제목입니다.게시글 제목입니다.</strong></p>
+        </div>
+        <div class="text-box">
+            <div class="text" id="text">
+                <p>작성자 : </p>
+                <p>스터디 시간 :</p>
+                <p>게시물 내용 웹 브라우저의 레이아웃 엔진으로 호환 모드(quirks mode), 거의 표준 모드(almost standards mode), 표준 모드(standards mode)의 세 가지
+                    방식이 존재한다.
+
+                    호환 모드(quirks mode) : 기존 방식으로 제작된 웹사이트들을 표현하기 위해 내비게이터 4(Navigator 4)와 인터넷 익스플로러 5의 비표준 동작들을 에뮬레이션한다.
+
+                    완전 표준 모드(full standards mode; 이하 표준 모드) :  HTML과 CSS에 의해 웹 페이지가 표시된다.
+
+                    거의 표준 모드(almost standards mode): 소수의 호환 모드 요소만 지원한다.
+                </p>
+
+            </div>
+            <div class="close">
+                <button onclick="location.href='/study_page'" type="button" class="btn btn-outline-secondary">닫기</button>
+            </div>
+        </div>
+        <div class="comment-pox">
+            <textarea class="comment" placeholder=" 덧글을 남겨주세요" id="comment"></textarea>
+            <button onclick="save_comment()" type="button" class="btn btn-outline-success" style="width: 100px; height: 50px">등록</button>
+        </div>
+        <div class="card-box" id="card-box">
+            <div class="card" id="card">
+                <p>안녕하세요</p>
+                <button type="button" class="btn btn-outline-danger">삭제하기</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
