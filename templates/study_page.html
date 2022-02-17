@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -104,7 +104,15 @@
             });
         }
         function post_go(num) {
-            console.log(num)
+            $.ajax({
+                type: 'GET',
+                url: '/study_page_api_num?num_give='+num,
+                data: {},
+                success: function (response) {
+                    location.href="test_page.html";
+                }
+            });
+
         }
     </script>
 </head>

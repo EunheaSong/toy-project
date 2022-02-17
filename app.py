@@ -15,6 +15,13 @@ def study_page_get():
 
    return jsonify({'post': post_list})
 
+@app.route('/study_page_api_num', methods=['GET'])
+def study_page_num_get():
+   num_receive = request.args.get('num_give')
+   No = db.posts.find_one({'num': num_receive})
+
+   return jsonify({'bulletin':No})
+
 @app.route('/test', methods=['GET'])
 def test_get():
    title_receive = request.args.get('title_give')
