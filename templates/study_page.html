@@ -81,9 +81,10 @@
                         let content = rows[i]['content']
                         let on_off = rows[i]['on_off']
                         let time = rows[i]['time']
+                        let num = rows[i]['num']
 
                         let temp_html = `<div class="study_page_post">
-                                            <a href="study_page_offline.html">
+                                            <a href="#" onclick="javascript:post_go(${num})">
                                                 <div class="card border-dark mb-3" style="max-width: 18rem;">
                                                     <div class="card-header">${on_off}</div>
                                                     <div class="card-body text-dark">
@@ -101,6 +102,9 @@
 
                 }
             });
+        }
+        function post_go(num) {
+            console.log(num)
         }
     </script>
 </head>
