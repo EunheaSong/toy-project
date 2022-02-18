@@ -50,5 +50,34 @@ def movie_get():
 
 ##################################################
 
+#권규민 - 게시판 페이지 작성 후 DB에 insert.
+
+@app.route('/write', methods=["POST"] )
+def write():
+
+
+    #게시글 넘버링 - 해당 번호로 내용을 가져오며, 삭제,수정의 index 번호역활.
+    Write_list = list(db.posts.find({}, {"_id": False}))
+    count = len(Write_list) + 1
+
+    name_receive = request.form['name_give']
+    title_receive = request.form['title_give']
+    content_receive = request.form['content_give']
+
+    doc = {
+        'num' : count,
+        'name': name_receive,
+        'title': title_receive,
+        'content': content_receive,
+        'hit': 0
+    }
+    db.posts.insert_one(doc)
+
+
+    return jsonify({'msg': '작성완료!'})
+
+
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
