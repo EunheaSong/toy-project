@@ -99,9 +99,6 @@
     </style>
 
     <script>
-
-
-
         function insert_content(){
             let name = $('#writer').val()
             let title = $('#title').val()
@@ -115,13 +112,9 @@
 					console.log(response['msg'])
                     alert(response['msg'])
                     window.location.href="/"
-
                 }
-
             });
-
         }
-
     </script>
 
 </head>
@@ -152,11 +145,9 @@
 
 		<div class="wirteBtn">
 			<div>
-
 				<a href="javascript:history.back()">
 					<input type="button" value="작성취소">
 				</a>
-
 			</div>
 			<div>
 				<button onclick="insert_content()">작성완료</button>
@@ -165,8 +156,6 @@
 
 	</form>
 </section>
-
-
 
 
 </body>

@@ -70,7 +70,6 @@ def comment_delete():
 @app.route('/write', methods=["POST"] )
 def write():
 
-
     #게시글 넘버링 - 해당 번호로 내용을 가져오며, 삭제,수정의 index 번호역활.
     Write_list = list(db.posts.find({}, {"_id": False}))
     count = len(Write_list) + 1
@@ -87,7 +86,6 @@ def write():
         'hit': 0
     }
     db.posts.insert_one(doc)
-
 
     return jsonify({'msg': '작성완료!'})
 
