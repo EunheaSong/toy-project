@@ -22,7 +22,7 @@
 <!--    - 시간 - time-->
 <!--    - 조회수 - hit-->
 <!--    - 지역 - address-->
-<!--    - db 폴더명 - posts-->
+<!--    - db 폴더명 - posts_list-->
 
     <style>
         .postbox {
@@ -176,6 +176,7 @@
     <script>
         $(document).ready(function () {  //페이지가 로드되면 post_open를 시작한다.즉,게시글 내용을 보여준다.
             post_open();
+            comment_open();
         });
 
         function post_open() { //게시글의 전체 내용 받아오는 함수.
@@ -184,7 +185,7 @@
                 url: "/postbox",
                 data: {},
                 success: function (response) {
-                    let rows = response["post"]
+                    let rows = response["posts"]
                     for (let i = 0; i < rows.length; i++){
                         let on_off = rows[i]['on_off'] //온라인인지 오프라인인지
                         let address = rows[i]['address'] //지역
@@ -192,7 +193,6 @@
                         let name = rows[i]['name'] //작성자
                         let time = rows[i]['time'] //시간
                         let content = rows[i]['content'] //내용
-                        let comment = rows[i]['comment'] //덧글
 
                         let temp_html = ``
                         if (on_off == 온라인) {
@@ -207,13 +207,29 @@
                         let temp_html02 = `<p>작성자 : ${name}</p>
                                            <p>스터디 시간 : ${time}</p>
                                            <p>${content}</p>`
-                        let temp_html03 = `<div class="card" id="card">
-                                           <p>${comment}</p>
-                                           <button type="button" class="btn btn-outline-danger">삭제하기</button>
-                                           </div>`
 
                         $('#post-title').append(temp_html)
                         $('#text').append(temp_html02)
+                    }
+                }
+            });
+        }
+        function comment_open() { //덧글 전체 내용 받아오는 함수.
+             $.ajax({
+                type: "GET",
+                url: "/postbox/comment",
+                data: {},
+                success: function (response) {
+                    let rows = response["comments"]
+                    for (let i = 0; i < rows.length; i++){
+                        let comment = rows[i]['comment'] //덧글
+                        let co_num = rows[i]['co_num'] //덧글 번호
+
+                        let temp_html03 = `<div class="card" id="card">
+                                           <p>${comment}</p>
+                                           <button onclick="delete_comment(${co_num})" type="button" class="btn btn-outline-danger">삭제하기</button>
+                                           </div>`
+
                         $('#card-box').append(temp_html03)
                     }
                 }
@@ -223,7 +239,7 @@
             let comments = $('#comment').val()
             $.ajax({
                 type: "POST",
-                url: "/postbox",
+                url: "/postbox/comment",
                 data: {comment_give: comments},
                 success: function (response) {
                     alert(response["msg"])
@@ -231,7 +247,17 @@
                 }
             });
         }
-
+        function delete_comment(co_num) { //덧글 삭제
+            $.ajax({
+                type: "POST",
+                url: "/postbox/comment_delete",
+                data: {co_num_give: co_num},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+        }
     </script>
 
 </head>
@@ -247,14 +273,7 @@
             <div class="text" id="text">
                 <p>작성자 : </p>
                 <p>스터디 시간 :</p>
-                <p>게시물 내용 웹 브라우저의 레이아웃 엔진으로 호환 모드(quirks mode), 거의 표준 모드(almost standards mode), 표준 모드(standards mode)의 세 가지
-                    방식이 존재한다.
-
-                    호환 모드(quirks mode) : 기존 방식으로 제작된 웹사이트들을 표현하기 위해 내비게이터 4(Navigator 4)와 인터넷 익스플로러 5의 비표준 동작들을 에뮬레이션한다.
-
-                    완전 표준 모드(full standards mode; 이하 표준 모드) :  HTML과 CSS에 의해 웹 페이지가 표시된다.
-
-                    거의 표준 모드(almost standards mode): 소수의 호환 모드 요소만 지원한다.
+                <p>게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.
                 </p>
 
             </div>
@@ -269,7 +288,7 @@
         <div class="card-box" id="card-box">
             <div class="card" id="card">
                 <p>안녕하세요</p>
-                <button type="button" class="btn btn-outline-danger">삭제하기</button>
+                <button onclick="delete_comment()" type="button" class="btn btn-outline-danger">삭제하기</button>
             </div>
         </div>
 

@@ -17,7 +17,7 @@ db = client.toy   #db폴더명 toy로 설정.
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('postbox.html')
 
 
 ########## 이푸름 - 전체보기/온라인/오프라인 게시글 목록 페이지 ##########
@@ -36,17 +36,32 @@ def study_page_get():
 def study_page():
     return render_template('study_page.html')
 
-@app.route('/postbox', methods=['POST']) #덧글 등록
-def test_post():
-   comment_receive = request.form['comment_give']
-   doc = {'comment':comment_receive}
-   db.posts_list.insert_one(doc)
-   return jsonify({'msg': '등록되었습니다.'})
-
 @app.route("/postbox", methods=["GET"]) #게시글 내용 꺼내옴
-def movie_get():
-    all_posts = list(db.posts_list.find({}, {'_id': False}))
-    return jsonify({'movies':all_posts})
+def posts_get():
+    all_posts = list(db.posts.find({}, {'_id': False}))
+    return jsonify({'posts':all_posts})
+
+@app.route("/postbox/comment", methods=["GET"]) #게시글 내용 꺼내옴
+def comments_get():
+    all_comments = list(db.comments_list.find({}, {'_id': False}))
+    return jsonify({'comments':all_comments})
+
+@app.route('/postbox/comment', methods=['POST']) #덧글 등록
+def test_post():
+    comment_receive = request.form['comment_give']
+    comment_number = list(db.comments_list.find({}, {'_id': False}))
+    count = len(comment_number) + 1
+    doc = {'comment': comment_receive,
+           'co_num' : count}
+    db.comments_list.insert_one(doc)
+    return jsonify({'msg': '등록되었습니다.'})
+
+@app.route("/postbox/comment_delete", methods=["POST"]) #덧글 삭제
+def comment_delete():
+    co_num_receive = request.form['co_num_give']
+    db.comments_list.delete_one({'co_num': int(co_num_receive)}) #co_num_receive앞에 int를 붙여주어야 숫자로 인식함! int안붙이면 문자형으로 인식.
+    return jsonify({'msg': '삭제되었습니다.'})
+
 
 ##################################################
 
