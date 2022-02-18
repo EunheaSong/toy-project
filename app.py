@@ -22,7 +22,7 @@ def home():
 
 ########## 이푸름 - 전체보기/온라인/오프라인 게시글 목록 페이지 ##########
 
-@app.route('/study_page_api', methods=['GET'])
+@app.route('/study_page_api', methods=['GET']) #게시글 내용 꺼내송
 def study_page_get():
    post_list = list(db.posts.find({},{'_id':False}))
    return jsonify({'post': post_list})
@@ -30,6 +30,13 @@ def study_page_get():
 @app.route('/post_page') # postbox.html로 페이지 이동. url명을 지정해주고자 하여, post_page로 설정.
 def posting_page():
     return render_template('postbox.html')
+
+@app.route('/study_page_api_num', methods=['POST']) # 게시글 카드를 눌렀을 때 전송되는 번호를 받아서 그 번호의 read값을 변경
+def study_page_num_get():
+   num_receive = request.form['num_give']
+   db.posts.update_one({'num': int(num_receive)}, {'$set': {'read': 0}})
+
+   return jsonify({'msg' : '변경완료'})
 
 ##################################################
 

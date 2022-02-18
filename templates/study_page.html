@@ -44,15 +44,7 @@
 
 
         }
-        .card-text {
-            width: 16rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-
-        }
+        
         a:link {
             text-decoration : none;
             color: black;
@@ -68,7 +60,7 @@
             show_post();
         });
 
-        function show_post() {
+        function show_post() { // 게시글 카드에 적을 내용 꺼내옴
             $.ajax({
                 type: 'GET',
                 url: '/study_page_api',
@@ -78,19 +70,20 @@
                     for (let i = 0; i < rows.length; i++){
                         let name = rows[i]['name']
                         let title = rows[i]['title']
-                        let content = rows[i]['content']
                         let on_off = rows[i]['on_off']
                         let time = rows[i]['time']
                         let num = rows[i]['num']
+                        let hit = rows[i]['hit']
+                        let read = rows[i]['read']
 
                         let temp_html = `<div class="study_page_post">
-                                            <a href="/post_page" onclick="javascript:post_go(${num})">
+                                            <a href="#" onclick="javascript:post_go(${num})">
                                                 <div class="card border-dark mb-3" style="max-width: 18rem;">
                                                     <div class="card-header">${on_off}</div>
                                                     <div class="card-body text-dark">
                                                         <h5 class="card-title">${title}</h5>
                                                         <p class="time">${time}</p>
-                                                        <p class="card-text">${content}</p>
+
                                                     </div>
                                                     <div class="card-footer bg-transparent border-dark">${name}</div>
                                                 </div>
@@ -103,13 +96,14 @@
                 }
             });
         }
-        function post_go(num) {
+        function post_go(num) { //게시글 카드를 눌렀을 때 누른 게시글의 번호를 전송
             $.ajax({
-                type: 'GET',
-                url: '/study_page_api_num?num_give='+num,
-                data: {},
+                type: 'POST',
+                url: '/study_page_api_num',
+                data: {num_give : num},
                 success: function (response) {
-                    location.href="test_page.html";
+                    console.log(response)
+                    location.href="/post_page"
                 }
             });
 
@@ -130,7 +124,7 @@
                             <div class="card-body text-dark">
                                 <h5 class="card-title">게시물 제목</h5>
                                 <p class="time">시간</p>
-                                <p class="card-text">게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용</p>
+
                             </div>
                             <div class="card-footer bg-transparent border-dark">작성자</div>
                         </div>
