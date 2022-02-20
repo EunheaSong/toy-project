@@ -1,5 +1,5 @@
 
-<!--메인 페이지-->
+<!--오프라인 스터디 지역선택 페이지-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gamja+Flower&family=Jua&display=swap"
           rel="stylesheet">
-    <title>스파르타 스터디</title>
+    <title>스파르타_오프라인 스터디</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
@@ -60,20 +60,41 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 15px auto 0px auto;
+            margin: 15px auto 0 auto;
             border: 2px solid lightgray;
             border-radius: 6px;
             padding-bottom: 15px;
         }
 
-        .mybtn > button, a {
-            width: 250px;
-            height: 60px;
-            margin: 15px auto 0px auto;
-            font-size: 17px;
+        .btn-all {
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 15px auto 0 auto;
+            /*border: 2px solid lightgray;*/
+            /*border-radius: 6px;*/
+            /*padding-bottom: 15px;*/
         }
 
+        .btn-region {
+            margin-bottom: 15px;
+        }
+
+        .btn-recruite > button {
+            width: 210px;
+        }
+
+        /*.mybtn > button, a {*/
+        /*    width: 250px;*/
+        /*    height: 60px;*/
+        /*    margin: 15px auto 0 auto;*/
+        /*    font-size: 17px;*/
+        /*}*/
+
     </style>
+
 
 </head>
 
@@ -82,13 +103,26 @@
     <div class="mytitle">
         <h1>스파르타 스터디</h1>
     </div>
-    <div class="mybtn">
-        <button type="button" class="btn btn-outline-secondary" onclick="location.href='offline.html'">오프라인 스터디 찾기
-        </button>
-        <button type="button" class="btn btn-outline-secondary">온라인 스터디 찾기</button>
-        <button type="button" class="btn btn-outline-secondary">온, 오프라인 스터디 찾기</button>
-        <button type="button" class="btn btn-outline-secondary">스터디 모집하기</button>
+    <div class="btn-all">
+        <div class="btn-region">
+            <div class="btn-group">
+                <button class="btn btn-secondary btn-sm" type="button">오프라인 모임 지역별 보기</button>
+                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">서울권</a></li>
+                    <li><a class="dropdown-item" href="#">경기권</a></li>
+                    <li><a class="dropdown-item" href="#">인천권</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="btn-recruite">
+            <button type="button" class="btn btn-outline-secondary">스터디 전체보기</button>
+        </div>
     </div>
+
 </div>
 </body>
 
