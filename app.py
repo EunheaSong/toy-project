@@ -28,11 +28,11 @@ def writeForm_page():
     return render_template('writeForm.html')
 
 @app.route('/study_page_offline')  # study_page_offline.html 로 이동 할 때
-def post_page():
+def study_page_offline():
     return render_template('study_page_offline.html')
 
 @app.route('/study_page_online')  # study_page_online.html 로 이동 할 때
-def post_page():
+def study_page_online():
     return render_template('study_page_online.html')
 
 @app.route('/postbox')  # postbox.html 로 이동 할 때
@@ -74,17 +74,13 @@ def study_page_get():
 
 @app.route('/study_page_api_num', methods=['POST'])
 def study_page_num_get():
-   num_receive = request.form['num_give']
-   db.posts.update_one({'num': int(num_receive)}, {'$set': {'read': 1}})
+    db.posts.update_one({'read': 1}, {'$set': {'read': 0}})
+    num_receive = request.form['num_give']
+    db.posts.update_one({'num': int(num_receive)}, {'$set': {'read': 1}})
 
-   return jsonify({'msg' : '변경완료'})
+    return jsonify({'msg' : '변경완료'})
 
-@app.route('/post_page_read_change', methods=['POST'])
-def study_page_read():
 
-   db.posts.update_one({'read': 1}, {'$set': {'read': 0}})
-
-   return jsonify({'msg' : '변경완료'})
 
 ########## 송은혜 - 스터디 게시글 내용 보는 페이지 ##########
 

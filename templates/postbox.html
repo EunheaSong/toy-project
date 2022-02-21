@@ -210,17 +210,6 @@
                             $('#text-box').append(temp_html02)
                         }
                     }
-                    post_change()
-                }
-            });
-        }
-        function post_change() { //읽은 게시글의 read를 읽기 전으로 되돌림
-            $.ajax({
-                type: 'POST',
-                url: '/post_page_read_change',
-                data: {},
-                success: function (response) {
-                    console.log(response)
                 }
             });
         }
