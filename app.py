@@ -57,7 +57,8 @@ def write():
         'name': name_receive,
         'title': title_receive,
         'content': content_receive,
-        'hit': 0
+        'hit': 0,
+        'read' : 0
     }
     db.posts.insert_one(doc)
 
@@ -71,6 +72,19 @@ def study_page_get():
    post_list = list(db.posts.find({},{'_id':False}))
    return jsonify({'post': post_list})
 
+@app.route('/study_page_api_num', methods=['POST'])
+def study_page_num_get():
+   num_receive = request.form['num_give']
+   db.posts.update_one({'num': int(num_receive)}, {'$set': {'read': 1}})
+
+   return jsonify({'msg' : '변경완료'})
+
+@app.route('/post_page_read_change', methods=['POST'])
+def study_page_read():
+
+   db.posts.update_one({'read': 1}, {'$set': {'read': 0}})
+
+   return jsonify({'msg' : '변경완료'})
 
 ########## 송은혜 - 스터디 게시글 내용 보는 페이지 ##########
 
