@@ -51,14 +51,16 @@ def write():
     name_receive = request.form['name_give']
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
-
-    doc = {
+    check_receive = request.form['check_give']
+    location_receive = request.form['location_give']
+    doc = { # 넘버, 작성자 , 제목 , 내용, 온/오프라인 선택 / 모임지역
         'num' : count,
         'name': name_receive,
         'title': title_receive,
         'content': content_receive,
-        'hit': 0,
-        'read' : 0
+        'on_off':check_receive,
+        'address':location_receive
+
     }
     db.posts.insert_one(doc)
 

@@ -2,7 +2,7 @@
 <!--게시글 작성 페이지-->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -44,13 +44,13 @@
 		width: 100%;
 		}
 
-		form[method="POST"] table > tbody > tr {
+		form table > tbody > tr {
 			border: 0;
 		}
-		form[method="POST"] table > tbody > tr > th {
+		form table > tbody > tr > th {
 			text-align: left;
 		}
-		form[method="POST"] input[type="text"] {
+		form input[type="text"] {
 			all: unset;
 			padding: 10px;
 			font-size: 18px;
@@ -58,7 +58,7 @@
 			width: 50%;
 			border-bottom: 2px solid black;
 		}
-		form[method="POST"] textarea {
+		form textarea {
 			min-height: 500px;
 			width: 100%;
 			resize: none;
@@ -98,6 +98,21 @@
 			color: white;
 		}
 
+		.form-select{
+			width: 700px;
+			margin-bottom: 10px;
+		}
+		.form-checked{
+			display: flex;
+
+		}
+
+
+		.form-check{
+			font-size: 20px;
+			margin-left: 3px;
+
+		}
 
     </style>
 
@@ -106,16 +121,18 @@
             let name = $('#writer').val()
             let title = $('#title').val()
             let content = $('#content').val()
+			let check = $('[name=radio]:checked').val()
+			let location = $('#SelectLo').val()
+
 
             $.ajax({
                 type: 'POST',
                 url: '/write',
-                data:{ name_give:name, title_give:title, content_give:content},
+                data:{ name_give:name, title_give:title, content_give:content,check_give:check, location_give:location},
                 success: function (response){
-					console.log(response['msg'])
-                    alert(response['msg'])
-                    // window.location.href="/"
-					history.back()
+					alert(response['msg'])
+					window.location.href="/"
+					//글 작성 후 index.html 페이지로 넘김 // 페이지 넘어가지 않는 에러 수정
                 }
             });
         }
@@ -124,8 +141,32 @@
 </head>
 <body>
 <section>
-	<form method="POST">
+	<br><h1 style="color: gray">스터디 게시글 작성</h1><br>
+	<form>
 		<table>
+			<tr>
+				<select class="form-select" aria-label="Default select example" id="SelectLo" required>
+				    <option selected>지역을 선택해주세요.</option>
+			  		<option value="seoul">서울</option>
+			  		<option value="gyeonggi">경기</option>
+			  		<option value="incheon">인천</option>
+				</select>
+			</tr>
+			<tr>
+				<div class="form-checked">
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="radio" id="CheckOn" value="online" checked required />
+					<label class="form-check-label" for="CheckOn">온라인</label>
+				</div>
+
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="radio" id="CheckOff" value="offline" >
+					<label class="form-check-label" for="CheckOff">오프라인</label>
+				</div>
+				</div>
+			</tr>
+
+
 			<tr>
 				<th><input type="text"
 						   id="writer"
@@ -154,7 +195,7 @@
 				</a>
 			</div>
 			<div>
-				<button onclick="insert_content()">작성완료</button>
+				<button onclick="insert_content()" type="button">작성완료</button>
 			</div>
 		</div>
 
