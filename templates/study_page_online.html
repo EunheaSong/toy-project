@@ -2,7 +2,7 @@
 <!--온라인 스터디 조회-->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,22 +17,34 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
     <title>스파르타_온라인 스터디</title>
+
     <style>
+        * {
+            font-family: 'Noto Serif KR', serif;
+        }
+
         .study_page_wrap {
             {#background-image: url("");#}
             {#background-size: cover;#}
             {#background-position: center;#}
         }
         .study_page_title {
-            background-color: green;
-            background-size: cover;
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://cdn.pixabay.com/photo/2017/07/31/11/21/people-2557396_1280.jpg');
             background-position: center;
+            background-size: cover;
+
+            color: white;
 
             width: 500px;
             height: 100px;
 
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
             padding-top: 25px;
             border-radius: 10px;
@@ -46,15 +58,7 @@
 
 
         }
-        .card-text {
-            width: 16rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
 
-        }
         a:link {
             text-decoration : none;
             color: black;
@@ -65,26 +69,87 @@
         }
 
     </style>
+    <script>
+        $(document).ready(function () {
+            show_post();
+        });
+
+        function show_post() { // 게시글 카드에 적을 내용 꺼내옴
+            $.ajax({
+                type: 'GET',
+                url: '/study_page_api',
+                data: {},
+                success: function (response) {
+                    let rows = response['post']
+                    for (let i = 0; i < rows.length; i++){
+                        let name = rows[i]['name']
+                        let title = rows[i]['title']
+                        let on_off = rows[i]['on_off']
+                        let time = rows[i]['time']
+                        let num = rows[i]['num']
+                        let hit = rows[i]['hit']
+                        let read = rows[i]['read']
+
+                        if (on_off == 'on'){
+                            let temp_html = `<div class="study_page_post">
+                                                <a href="#" onClick = "javascript:post_go(${num})">
+                                                    <div class="card border-dark mb-3" style="max-width: 18rem;">
+                                                        <div class="card-header">${on_off}</div>
+                                                        <div class="card-body text-dark">
+                                                            <h5 class="card-title">${title}</h5>
+                                                            <p class="time">${time}</p>
+
+                                                        </div>
+                                                        <div class="card-footer bg-transparent border-dark">${name}</div>
+                                                    </div>
+                                                </a>
+                                            </div>`
+
+                            $('#study_page_post_box').append(temp_html)
+                        }
+
+
+                    }
+
+                }
+            });
+        }
+        function post_go(num) { //게시글 카드를 눌렀을 때 누른 게시글의 번호를 전송
+            $.ajax({
+                type: 'POST',
+                url: '/study_page_api_num',
+                data: {num_give : num},
+                success: function (response) {
+                    console.log(response)
+                    location.href="/post_page"
+                }
+            });
+
+        }
+    </script>
 </head>
 <body>
     <div class="study_page_wrap">
         <div class="study_page_title">
             <h1>온라인 스터디</h1>
         </div>
-        <div class="study_page_post_wrap">
-            <div class="study_page_post">
-                <a href="게시글">
-                    <div class="card border-dark mb-3" style="max-width: 18rem;">
-                        <div class="card-header">온라인/오프라인</div>
-                        <div class="card-body text-dark">
-                            <h5 class="card-title">게시물 제목</h5>
-                            <p class="time">시간</p>
-                            <p class="card-text">게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용 게시물 내용</p>
+        <div class="study_page_post_wrap" >
+            <div id="study_page_post_box">
+                <div class="study_page_post">
+                    <a href="/post_page">
+                        <div class="card border-dark mb-3" style="max-width: 18rem;">
+                            <div class="card-header">온라인</div>
+                            <div class="card-body text-dark">
+                                <h5 class="card-title">게시물 제목</h5>
+                                <p class="time">시간</p>
+
+                            </div>
+                            <div class="card-footer bg-transparent border-dark">작성자</div>
                         </div>
-                        <div class="card-footer bg-transparent border-dark">작성자</div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
+
             <button onclick="history.back()" type="button" class="btn btn-outline-dark" style="width: 90px;">뒤로가기</button>
         </div>
 
