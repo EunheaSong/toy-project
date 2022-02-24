@@ -47,9 +47,9 @@ def study_page_offline():
 def study_page_online():
     return render_template('study_page_online.html')
 
-@app.route('/postbox')  # postbox.html 로 이동 할 때
-def post_page():
-    return render_template('postbox.html')
+@app.route('/postbox/<int:num>')  # postbox.html 로 이동 할 때
+def post_page(num):
+    return render_template('postbox.html', num = num)
 
 ########## 권규민 - 게시판 페이지 작성 후 DB에 insert. ###############
 
@@ -69,8 +69,7 @@ def write():
         'name': name_receive,
         'title': title_receive,
         'content': content_receive,
-        'hit': 0,
-        'read' : 0
+        'hit': 0
     }
     db.posts.insert_one(doc)
 
@@ -83,15 +82,6 @@ def write():
 def study_page_get():
    post_list = list(db.posts.find({},{'_id':False}))
    return jsonify({'post': post_list})
-
-@app.route('/study_page_api_num', methods=['POST'])
-def study_page_num_get():
-    db.posts.update_one({'read': 1}, {'$set': {'read': 0}})
-    num_receive = request.form['num_give']
-    db.posts.update_one({'num': int(num_receive)}, {'$set': {'read': 1}})
-
-    return jsonify({'msg' : '변경완료'})
-
 
 
 ########## 송은혜 - 스터디 게시글 내용 보는 페이지 ##########

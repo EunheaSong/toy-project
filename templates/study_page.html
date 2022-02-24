@@ -87,7 +87,6 @@
                         let time = rows[i]['time']
                         let num = rows[i]['num']
                         let hit = rows[i]['hit']
-                        let read = rows[i]['read']
 
                         let temp_html = `<div class="study_page_post">
                                             <a href="#" onclick = "post_go(${num});">
@@ -110,16 +109,8 @@
             });
         }
         function post_go(num) { //게시글 카드를 눌렀을 때 누른 게시글의 번호를 전송
-            $.ajax({
-                type: 'POST',
-                url: '/study_page_api_num',
-                data: {num_give : num},
-                success: function (response) {
-                    console.log(response)
-                    location.href="/postbox"
-                }
-            });
-
+            let a =num
+            location.href="/postbox/"+a
         }
     </script>
 </head>

@@ -186,9 +186,10 @@
                         let name = rows[i]['name'] //작성자
                         let time = rows[i]['time'] //시간
                         let content = rows[i]['content'] //내용
-                        let read = rows[i]['read'] //읽음
+                        let number =rows[i]['num'] //번호
+                        let a = {{num}} //url뒤에 붙는 숫자
 
-                        if (read == 1) {
+                        if (number == a) {
                             let temp_html = ``
                             if (on_off == 'online') {
                                 temp_html = `<span class="on-off">&#128187;On&#128187;</span>
