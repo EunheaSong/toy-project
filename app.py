@@ -23,6 +23,18 @@ def home():
 def offline_page():
     return render_template('offline.html')
 
+@app.route('/study_page_offline_Seoul')  # study_page_offline.html 로 이동 할 때
+def study_page_offline_Seoul():
+    return render_template('study_page_offline_Seoul.html')
+
+@app.route('/study_page_offline_Gyeonggi')  # study_page_offline.html 로 이동 할 때
+def study_page_offline_Gyeonggi():
+    return render_template('study_page_offline_Gyeonggi.html')
+
+@app.route('/study_page_offline_Incheon')  # study_page_offline.html 로 이동 할 때
+def study_page_offline_Incheon():
+    return render_template('study_page_offline_Incheon.html')
+
 @app.route('/writeForm') # writeForm.html로 이동 할 때
 def writeForm_page():
     return render_template('writeForm.html')
