@@ -192,18 +192,18 @@
                             let temp_html = ``
                             if (on_off == 'online') {
                                 temp_html = `<span class="on-off">&#128187;On&#128187;</span>
-                                         <span class="address">-${address}-</span>
-                                         <p><strong>${title}</strong></p>`
+                                             <span class="address">${address}</span>
+                                             <p><strong>${title}</strong></p>`
                             } else {
                                 temp_html = `<span class="on-off">🙋Off🙋</span>
-                                         <span class="address">-${address}-</span>
-                                         <p><strong>${title}</strong></p>`
+                                             <span class="address">${address}</span>
+                                             <p><strong>${title}</strong></p>`
                             }
                             let temp_html02 = `<div class="text" id="text">
-                                           <p>작성자 : ${name}</p>
-                                           <p>스터디 시간 : ${time}</p>
-                                           <p>${content}</p>
-                                           </div>`
+                                                   <p>작성자 : ${name}</p>
+                                                   <p>스터디 시간 : ${time}</p>
+                                                   <p>${content}</p>
+                                               </div>`
 
 
                             $('#post-title').append(temp_html)
