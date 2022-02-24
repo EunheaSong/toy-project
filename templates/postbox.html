@@ -190,7 +190,7 @@
 
                         if (read == 1) {
                             let temp_html = ``
-                            if (on_off == 온라인) {
+                            if (on_off == 'online') {
                                 temp_html = `<span class="on-off">&#128187;On&#128187;</span>
                                          <span class="address">-${address}-</span>
                                          <p><strong>${title}</strong></p>`
@@ -207,7 +207,7 @@
 
 
                             $('#post-title').append(temp_html)
-                            $('#text-box').append(temp_html02)
+                            $('#text').append(temp_html02)
                         }
                     }
                 }
@@ -264,16 +264,16 @@
 <body>
     <div class="postbox">
         <div class="post-title" id="post-title">
-            <span class="on-off">🙋Off🙋</span>
-            <span class="address">경기</span>
-            <p><strong>게시글 제목입니다.게시글 제목입니다.</strong></p>
+{#            <span class="on-off">🙋Off🙋</span>#}
+{#            <span class="address">경기</span>#}
+{#            <p><strong>게시글 제목입니다.게시글 제목입니다.</strong></p>#}
         </div>
         <div class="text-box">
             <div class="text" id="text">
-                <p>작성자 : </p>
-                <p>스터디 시간 :</p>
-                <p>게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.
-                </p>
+{#                <p>작성자 : </p>#}
+{#                <p>스터디 시간 :</p>#}
+{#                <p>게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.#}
+{#                </p>#}
             </div>
             <div class="close">
                 <button onclick="history.back()" type="button" class="btn btn-outline-secondary">닫기</button>
