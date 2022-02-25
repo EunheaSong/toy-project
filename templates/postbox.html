@@ -14,13 +14,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gamja+Flower&family=Jua&family=Poor+Story&display=swap" rel="stylesheet">
 
     <title>스파르타 스터디</title>
 
     <style>
+        *{
+            font-family: 'Poor Story', cursive;
+        }
         .postbox {
             width: 700px;
             height: auto;
+            background-color: rgba(0,0,0,0.04);
 
             min-height: 650px;
             max-width: 90%;
@@ -32,7 +37,7 @@
             border-radius: 10px;
             box-shadow: 0px 0px 2px 0px gray;
 
-            margin: 50px auto 50px auto;
+            margin: 40px auto 40px auto;
             padding-top: 10px;
             padding-bottom: 10px;
 
@@ -47,9 +52,10 @@
             height: 35px;
             max-width: 95%;
 
+
             border: 1px solid white;
             border-radius: 10px;
-            box-shadow: 0px 0px 2px 0px gray;
+            box-shadow: 0px 0px 2px 0px black;
 
             margin: 10px 0px 10px 0px;
 
@@ -81,9 +87,10 @@
             min-height: 450px;
             max-width: 93%;
 
+
             border: 0.5px solid white;
             border-radius: 10px;
-            box-shadow: 0px 0px 2px 0px gray;
+            box-shadow: 0px 0px 2px 0px black;
 
             padding: 13px 13px 13px 13px;
         }
@@ -169,7 +176,7 @@
     <script>
         $(document).ready(function () {  //페이지가 로드되면 post_open를 시작한다.즉,게시글 내용을 보여준다.
             post_open();
-            // comment_open();
+            comment_open();
         });
 
         function post_open() { //게시글의 전체 내용 받아오는 함수.
@@ -191,9 +198,9 @@
 
                         if (number == a) {
                             let temp_html = ``
-                            if (on_off == 'online') {
+                            if (on_off == '온라인') {
                                 temp_html = `<span class="on-off">&#128187;On&#128187;</span>
-                                             <span class="address">${address}</span>
+
                                              <p><strong>${title}</strong></p>`
                             } else {
                                 temp_html = `<span class="on-off">🙋Off🙋</span>
@@ -205,7 +212,6 @@
                                                    <p>스터디 시간 : ${time}</p>
                                                    <p>${content}</p>
                                                </div>`
-
 
                             $('#post-title').append(temp_html)
                             $('#text').append(temp_html02)
@@ -220,38 +226,47 @@
                 url: "/postbox/comment",
                 data: {},
                 success: function (response) {
-                    let rows = response["comments"]
-                    for (let i = 0; i < rows.length; i++){
-                        let comment = rows[i]['comment'] //덧글
-                        let co_num = rows[i]['co_num'] //덧글 번호
-
-                        let temp_html03 = `<div class="card" id="card">
-                                           <p>${comment}</p>
-                                           <button onclick="delete_comment(${co_num})" type="button" class="btn btn-outline-danger">삭제하기</button>
-                                           </div>`
-
-                        $('#card-box').append(temp_html03)
+                    let rows = response["all_comments"]
+                    for (let i = 0; i < rows.length; i++ ) {
+                        let comment_num = rows[i]['num']
+                        let comment_list = rows[i]['comments']
+                        let a = {{num}}
+                        if (a == comment_num) {
+                            for(let j = 0; j < comment_list.length; j++){
+                                let b = 0;
+                                let comment = comment_list[j]
+                                let temp_html03 = `<div class="card" id="card"">
+                                                   <p>${comment}</p>
+                                                   <button onclick="delete_comment(${b})" type="button" class="btn btn-outline-danger">삭제하기</button>
+                                                   </div>`
+                                $('#card-box').append(temp_html03)
+                                b++
+                            }
+                         }
                     }
                 }
             });
         }
+
          function save_comment() { //덧글을 db에 저장하고, 새로고침되어 덧글이 보이게함.
             let comments = $('#comment').val()
+            let num = {{num}}
             $.ajax({
                 type: "POST",
-                url: "/postbox/comment",
-                data: {comment_give: comments},
+                url: "/postbox/commnet",
+                data: {comment_give: comments,num_give:num},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
                 }
             });
         }
-        function delete_comment(co_num) { //덧글 삭제
+        function delete_comment(b) { //덧글 삭제
+            let num = {{num}}
             $.ajax({
                 type: "POST",
                 url: "/postbox/comment_delete",
-                data: {co_num_give: co_num},
+                data: {count_give:b, num_give:num},
                 success: function (response) {
                     alert(response["msg"])
                     window.location.reload()
@@ -265,16 +280,16 @@
 <body>
     <div class="postbox">
         <div class="post-title" id="post-title">
-{#            <span class="on-off">🙋Off🙋</span>#}
-{#            <span class="address">경기</span>#}
-{#            <p><strong>게시글 제목입니다.게시글 제목입니다.</strong></p>#}
+<!--            <span class="on-off">🙋Off🙋</span>-->
+<!--            <span class="address">경기</span>-->
+<!--            <p><strong>게시글 제목입니다.게시글 제목입니다.</strong></p>-->
         </div>
-        <div class="text-box">
+    <div class="text-box">
             <div class="text" id="text">
-{#                <p>작성자 : </p>#}
-{#                <p>스터디 시간 :</p>#}
-{#                <p>게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.#}
-{#                </p>#}
+<!--{#                <p>작성자 : </p>#}-->
+<!--{#                <p>스터디 시간 :</p>#}-->
+<!--{#                <p>게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.#}-->
+<!--{#                </p>#}-->
             </div>
             <div class="close">
                 <button onclick="history.back()" type="button" class="btn btn-outline-secondary">닫기</button>
@@ -284,10 +299,10 @@
             <textarea class="comment" placeholder=" 덧글을 남겨주세요" id="comment"></textarea>
             <button onclick="save_comment()" type="button" class="btn btn-outline-success" style="width: 100px; height: 50px">등록</button>
         </div>
-        <div class="card-box" id="card-box">
-            <div class="card" id="card">
-                <p>안녕하세요</p>
-                <button onclick="delete_comment()" type="button" class="btn btn-outline-danger">삭제하기</button>
+        <div class="card-box" id="card-box" >
+<!--            <div class="card" id="card">-->
+<!--                <p>안녕하세요</p>-->
+<!--                <button onclick="delete_comment()" type="button" class="btn btn-outline-danger">삭제하기</button>-->
             </div>
         </div>
 

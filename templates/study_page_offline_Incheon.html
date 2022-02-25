@@ -17,13 +17,15 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gamja+Flower&family=Jua&family=Poor+Story&display=swap" rel="stylesheet">
 
-    <title>스파르타_오프라인 스터디</title>
+
+    <title>스파르타_인천스터디</title>
     <style>
         * {
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Poor Story', cursive;
         }
+
         .study_page_wrap {
             {#background-image: url("");#}
             {#background-size: cover;#}
@@ -47,14 +49,22 @@
             padding-top: 25px;
             border-radius: 10px;
 
-            margin: 20px auto 0px auto;
+            margin: 30px auto 0px auto;
         }
 
         .study_page_post_wrap {
             margin: 20px auto 0px auto;
-            width: 18rem;
-
-
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            align-items: center;
+        }
+        .study_page_post {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         a:link {
@@ -65,6 +75,7 @@
             text-decoration : none;
             color: black;
         }
+
 
     </style>
     <script>
@@ -86,12 +97,13 @@
                         let on_off = rows[i]['on_off']
                         let time = rows[i]['time']
                         let num = rows[i]['num']
+                        let add = rows[i]['address']
 
-                        if (on_off == 'offline' && address == 'incheon'){
+                        if (on_off == '오프라인' && address == '인천'){
                             let temp_html = `<div class="study_page_post">
                                                 <a href="#" onclick = "post_go(${num});">
-                                                    <div class="card border-dark mb-3" style="max-width: 18rem;">
-                                                        <div class="card-header">${on_off}</div>
+                                                    <div class="card border-dark mb-3" style="width:300px;max-width:95%;">
+                                                        <div class="card-header">${on_off} / ${add}</div>
                                                         <div class="card-body text-dark">
                                                             <h5 class="card-title">${title}</h5>
                                                             <p class="time">${time}</p>
@@ -116,14 +128,14 @@
 <body>
     <div class="study_page_wrap">
         <div class="study_page_title">
-            <h1>오프라인 스터디</h1>
+            <h2>인천 오프라인 스터디</h2>
         </div>
         <div class="study_page_post_wrap" >
-            <div id="study_page_post_box">
+            <div id="study_page_post_box" style="width: 350px">
 {#                <div class="study_page_post">#}
 {#                    <a href="/postbox">#}
-{#                        <div class="card border-dark mb-3" style="max-width: 18rem;">#}
-{#                            <div class="card-header">오프라인</div>#}
+{#                        <div class="card border-dark mb-3" style="width:300px;max-width:95%;">#}
+{#                            <div class="card-header">오프라인 / ${add}</div>#}
 {#                            <div class="card-body text-dark">#}
 {#                                <h5 class="card-title">게시물 제목</h5>#}
 {#                                <p class="time">시간</p>#}
@@ -135,7 +147,7 @@
 {#                </div>#}
             </div>
 
-            <button onclick="location.href='/offline'" type="button" class="btn btn-outline-dark" style="width: 90px;">뒤로가기</button>
+            <button onclick="location.href='/offline'" type="button" class="btn btn-outline-dark" style="width: 90px; margin-bottom: 20px">뒤로가기</button>
         </div>
 
     </div>

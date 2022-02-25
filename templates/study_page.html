@@ -17,12 +17,12 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gamja+Flower&family=Jua&family=Poor+Story&display=swap" rel="stylesheet">
 
     <title>스파르타 스터디 전체보기</title>
     <style>
         * {
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Poor Story', cursive;
         }
 
         .study_page_wrap {
@@ -54,10 +54,14 @@
         .study_page_post_wrap {
             margin: 20px auto 0px auto;
             width: 18rem;
-
-
         }
-        
+        .card-header{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+        }
+
         a:link {
             text-decoration : none;
             color: black;
@@ -86,11 +90,28 @@
                         let on_off = rows[i]['on_off']
                         let time = rows[i]['time']
                         let num = rows[i]['num']
+                        let add = rows[i]['address']
+                        let temp_html = ``
+                        if (on_off == '온라인') {
+                            temp_html = `<div class="study_page_post">
+                                                <a href="#" onclick = "post_go(${num});">
+                                                    <div class="card border-dark mb-3" style="width:300px;max-width:95%;">
+                                                        <div class="card-header">${on_off}</div>
+                                                        <div class="card-body text-dark">
+                                                            <h5 class="card-title">${title}</h5>
+                                                            <p class="time">${time}</p>
 
-                        let temp_html = `<div class="study_page_post">
+                                                        </div>
+                                                        <div class="card-footer bg-transparent border-dark">${name}</div>
+                                                    </div>
+                                                </a>
+                                            </div>`
+                        } else {
+                            temp_html = `<div class="study_page_post">
                                             <a href="#" onclick = "post_go(${num});">
-                                                <div class="card border-dark mb-3" style="max-width: 18rem;">
-                                                    <div class="card-header">${on_off}</div>
+                                                <div class="card border-dark mb-3" style="width:300px;max-width:95%;">
+                                                    <div class="card-header">${on_off} / ${add}
+                                                    </div>
                                                     <div class="card-body text-dark">
                                                         <h5 class="card-title">${title}</h5>
                                                         <p class="time">${time}</p>
@@ -100,7 +121,7 @@
                                                 </div>
                                             </a>
                                         </div>`
-
+                        }
                         $('#study_page_post_box').append(temp_html)
                     }
                 }
@@ -116,27 +137,28 @@
 <body>
     <div class="study_page_wrap">
         <div class="study_page_title">
-            <h1>온,오프라인 스터디</h1>
+            <h1>온.오프라인 스터디</h1>
         </div>
         <div class="study_page_post_wrap" >
-            <div id="study_page_post_box">
-{#                <div class="study_page_post">#}
-{#                    <a href="/postbox">#}
-{#                        <div class="card border-dark mb-3" style="max-width: 18rem;">#}
-{#                            <div class="card-header">온라인/오프라인</div>#}
-{#                            <div class="card-body text-dark">#}
-{#                                <h5 class="card-title">게시물 제목</h5>#}
-{#                                <p class="time">시간</p>#}
-{##}
-{#                            </div>#}
-{#                            <div class="card-footer bg-transparent border-dark">작성자</div>#}
-{#                        </div>#}
-{#                    </a>#}
-{#                </div>#}
+            <div id="study_page_post_box" style="width: 350px">
+
+<!--{#                <div class="study_page_post">#}-->
+<!--{#                    <a href="/postbox">#}-->
+<!--{#                        <div class="card border-dark mb-3" style="width:300px;max-width:95%;">#}-->
+<!--{#                            <div class="card-header">온라인/오프라인</div>#}-->
+<!--{#                            <div class="card-body text-dark">#}-->
+<!--{#                                <h5 class="card-title">게시물 제목</h5>#}-->
+<!--{#                                <p class="time">시간</p>#}-->
+<!--{##-->
+<!--{#                            </div>#}-->
+<!--{#                            <div class="card-footer bg-transparent border-dark">작성자</div>#}-->
+<!--{#                        </div>#}-->
+<!--{#                    </a>#}-->
+<!--{#                </div>#}-->
 
             </div>
 
-            <button onclick="location.href='/'" type="button" class="btn btn-outline-dark" style="width: 90px;">뒤로가기</button>
+            <button onclick="location.href='/'" type="button" class="btn btn-outline-dark" style="width: 90px; margin-bottom: 20px">뒤로가기</button>
         </div>
 
     </div>
