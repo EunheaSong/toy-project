@@ -1,5 +1,5 @@
 
-<!--온,오프 전체 스터디 조회-->
+<!--오프라인 스터디 조회-->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -19,12 +19,11 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
-    <title>스파르타 스터디 전체보기</title>
+    <title>스파르타_오프라인 스터디</title>
     <style>
         * {
             font-family: 'Noto Serif KR', serif;
         }
-
         .study_page_wrap {
             {#background-image: url("");#}
             {#background-size: cover;#}
@@ -57,7 +56,7 @@
 
 
         }
-        
+
         a:link {
             text-decoration : none;
             color: black;
@@ -82,26 +81,28 @@
                     let rows = response['post']
                     for (let i = 0; i < rows.length; i++){
                         let name = rows[i]['name']
+                        let address = rows[i]['address']
                         let title = rows[i]['title']
                         let on_off = rows[i]['on_off']
                         let time = rows[i]['time']
                         let num = rows[i]['num']
 
-                        let temp_html = `<div class="study_page_post">
-                                            <a href="#" onclick = "post_go(${num});">
-                                                <div class="card border-dark mb-3" style="max-width: 18rem;">
-                                                    <div class="card-header">${on_off}</div>
-                                                    <div class="card-body text-dark">
-                                                        <h5 class="card-title">${title}</h5>
-                                                        <p class="time">${time}</p>
-
+                        if (on_off == 'offline' && address == 'seoul'){
+                            let temp_html = `<div class="study_page_post">
+                                                <a href="#" onclick = "post_go(${num});">
+                                                    <div class="card border-dark mb-3" style="max-width: 18rem;">
+                                                        <div class="card-header">${on_off}</div>
+                                                        <div class="card-body text-dark">
+                                                            <h5 class="card-title">${title}</h5>
+                                                            <p class="time">${time}</p>
+                                                        </div>
+                                                        <div class="card-footer bg-transparent border-dark">${name}</div>
                                                     </div>
-                                                    <div class="card-footer bg-transparent border-dark">${name}</div>
-                                                </div>
-                                            </a>
-                                        </div>`
+                                                </a>
+                                            </div>`
 
-                        $('#study_page_post_box').append(temp_html)
+                            $('#study_page_post_box').append(temp_html)
+                        }
                     }
                 }
             });
@@ -110,20 +111,19 @@
             let a =num
             location.href="/postbox/"+a
         }
-
     </script>
 </head>
 <body>
     <div class="study_page_wrap">
         <div class="study_page_title">
-            <h1>온,오프라인 스터디</h1>
+            <h1>오프라인 스터디</h1>
         </div>
         <div class="study_page_post_wrap" >
             <div id="study_page_post_box">
 {#                <div class="study_page_post">#}
 {#                    <a href="/postbox">#}
 {#                        <div class="card border-dark mb-3" style="max-width: 18rem;">#}
-{#                            <div class="card-header">온라인/오프라인</div>#}
+{#                            <div class="card-header">오프라인</div>#}
 {#                            <div class="card-body text-dark">#}
 {#                                <h5 class="card-title">게시물 제목</h5>#}
 {#                                <p class="time">시간</p>#}
@@ -133,10 +133,9 @@
 {#                        </div>#}
 {#                    </a>#}
 {#                </div>#}
-
             </div>
 
-            <button onclick="location.href='/'" type="button" class="btn btn-outline-dark" style="width: 90px;">뒤로가기</button>
+            <button onclick="location.href='/offline'" type="button" class="btn btn-outline-dark" style="width: 90px;">뒤로가기</button>
         </div>
 
     </div>

@@ -53,29 +53,29 @@ def post_page(num):
 
 ########## 권규민 - 게시판 페이지 작성 후 DB에 insert. ###############
 
-# @app.route('/write', methods=["POST"] )
-# def write():
-#
-#     #게시글 넘버링 - 해당 번호로 내용을 가져오며, 삭제,수정의 index 번호역활.
-#     Write_list = list(db.posts.find({}, {"_id": False}))
-#     count = len(Write_list) + 1
-#
-#     name_receive = request.form['name_give']
-#     title_receive = request.form['title_give']
-#     content_receive = request.form['content_give']
-#     check_receive = request.form['check_give']
-#     location_receive = request.form['location_give']
-#     doc = { # 넘버, 작성자 , 제목 , 내용, 온/오프라인 선택 / 모임지역
-#         'num' : count,
-#         'name': name_receive,
-#         'title': title_receive,
-#         'content': content_receive,
-#         'on_off':check_receive,
-#         'address':location_receive
-#     }
-#     db.posts.insert_one(doc)
-#
-#     return jsonify({'msg': '작성완료!'})
+@app.route('/write', methods=["POST"] )
+def write():
+
+    #게시글 넘버링 - 해당 번호로 내용을 가져오며, 삭제,수정의 index 번호역활.
+    Write_list = list(db.posts.find({}, {"_id": False}))
+    count = len(Write_list) + 1
+
+    name_receive = request.form['name_give']
+    title_receive = request.form['title_give']
+    content_receive = request.form['content_give']
+    check_receive = request.form['check_give']
+    location_receive = request.form['location_give']
+    doc = { # 넘버, 작성자 , 제목 , 내용, 온/오프라인 선택 / 모임지역
+        'num': count,
+        'name': name_receive,
+        'title': title_receive,
+        'content': content_receive,
+        'on_off': check_receive,
+        'address': location_receive
+    }
+    db.posts.insert_one(doc)
+
+    return jsonify({'msg': '작성완료!'})
 
 
 ########## 이푸름 - 전체보기/온라인/오프라인 게시글 목록 페이지 ##########
@@ -84,21 +84,6 @@ def post_page(num):
 def study_page_get():
    post_list = list(db.posts.find({},{'_id':False}))
    return jsonify({'post': post_list})
-
-
-
-# ## 송은혜 테스트
-#
-# @app.route('/study_page_api_num', methods=['POST'])
-# def study_page_num_get():
-#     num_receive = request.form['num_give']
-#     num_number = list(db.posts.find_one({'num':num_receive}))
-#     # hit_count = len(num_number('hit')) + 1
-#     #
-#     # db.posts.update_one({'num': num_receive}, {'$set': {'hit': hit_count}})
-#
-#     return jsonify({'open_num_page': num_number})
-
 
 
 ########## 송은혜 - 스터디 게시글 내용 보는 페이지 ##########
@@ -118,7 +103,7 @@ def test_post():
     comment_number = list(db.comments_list.find({}, {'_id': False}))
     count = len(comment_number) + 1
     doc = {'comment': comment_receive,
-           'co_num' : count}
+           'co_num': count}
     db.comments_list.insert_one(doc)
     return jsonify({'msg': '등록되었습니다.'})
 
