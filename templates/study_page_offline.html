@@ -88,9 +88,9 @@
                         let hit = rows[i]['hit']
                         let read = rows[i]['read']
 
-                        if (on_off == 'off'){
+                        if (on_off == 'offline'){
                             let temp_html = `<div class="study_page_post">
-                                                <a href="#" onClick = "javascript:post_go(${num})">
+                                                <a href="#" onclick = "post_go(${num});">
                                                     <div class="card border-dark mb-3" style="max-width: 18rem;">
                                                         <div class="card-header">${on_off}</div>
                                                         <div class="card-body text-dark">
@@ -113,16 +113,8 @@
             });
         }
         function post_go(num) { //게시글 카드를 눌렀을 때 누른 게시글의 번호를 전송
-            $.ajax({
-                type: 'POST',
-                url: '/study_page_api_num',
-                data: {num_give : num},
-                success: function (response) {
-                    console.log(response)
-                    location.href="/post_page"
-                }
-            });
-
+            let a =num
+            location.href="/postbox/"+a
         }
     </script>
 </head>
@@ -133,22 +125,22 @@
         </div>
         <div class="study_page_post_wrap" >
             <div id="study_page_post_box">
-                <div class="study_page_post">
-                    <a href="/post_page">
-                        <div class="card border-dark mb-3" style="max-width: 18rem;">
-                            <div class="card-header">오프라인</div>
-                            <div class="card-body text-dark">
-                                <h5 class="card-title">게시물 제목</h5>
-                                <p class="time">시간</p>
-
-                            </div>
-                            <div class="card-footer bg-transparent border-dark">작성자</div>
-                        </div>
-                    </a>
-                </div>
+{#                <div class="study_page_post">#}
+{#                    <a href="/postbox">#}
+{#                        <div class="card border-dark mb-3" style="max-width: 18rem;">#}
+{#                            <div class="card-header">오프라인</div>#}
+{#                            <div class="card-body text-dark">#}
+{#                                <h5 class="card-title">게시물 제목</h5>#}
+{#                                <p class="time">시간</p>#}
+{##}
+{#                            </div>#}
+{#                            <div class="card-footer bg-transparent border-dark">작성자</div>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
             </div>
 
-            <button onclick="history.back()" type="button" class="btn btn-outline-dark" style="width: 90px;">뒤로가기</button>
+            <button onclick="location.href='/'" type="button" class="btn btn-outline-dark" style="width: 90px;">뒤로가기</button>
         </div>
 
     </div>

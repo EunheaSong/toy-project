@@ -2,7 +2,7 @@
 <!--목록에서 선택한 게시물카드 오픈-->
 
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="utf-8">
@@ -173,90 +173,90 @@
         });
 
         function post_open() { //게시글의 전체 내용 받아오는 함수.
-             $.ajax({
+            $.ajax({
                 type: "GET",
                 url: "/study_page_api",
                 data: {},
                 success: function (response) {
                     let rows = response["post"]
-                    for (let i = 0; i < rows.length; i++){
+                    for (let i = 0; i < rows.length; i++) {
                         let on_off = rows[i]['on_off'] //온라인인지 오프라인인지
                         let address = rows[i]['address'] //지역
                         let title = rows[i]['title'] //제목
                         let name = rows[i]['name'] //작성자
                         let time = rows[i]['time'] //시간
                         let content = rows[i]['content'] //내용
-                        let read = rows[i]['read'] //읽음
+                        let number =rows[i]['num'] //번호
+                        let a = {{num}} //url뒤에 붙는 숫자
 
-                        if (read == 1) {
+                        if (number == a) {
                             let temp_html = ``
-                            if (on_off == 온라인) {
+                            if (on_off == online) {
                                 temp_html = `<span class="on-off">&#128187;On&#128187;</span>
-                                         <span class="address">-${address}-</span>
-                                         <p><strong>${title}</strong></p>`
+                                             <span class="address">${address}</span>
+                                             <p><strong>${title}</strong></p>`
                             } else {
                                 temp_html = `<span class="on-off">🙋Off🙋</span>
-                                         <span class="address">-${address}-</span>
-                                         <p><strong>${title}</strong></p>`
+                                             <span class="address">${address}</span>
+                                             <p><strong>${title}</strong></p>`
                             }
-                            let temp_html02 = `<div class="text" id="text">
-                                           <p>작성자 : ${name}</p>
-                                           <p>스터디 시간 : ${time}</p>
-                                           <p>${content}</p>
-                                           </div>`
-
+                            let temp_html02 = `<p>작성자 : ${name}</p>
+                                               <p>스터디 시간 : ${time}</p>
+                                               <p>${content}</p>
+                                               </div>`
 
                             $('#post-title').append(temp_html)
-                            $('#text-box').append(temp_html02)
+                            $('#text').append(temp_html02)
                         }
                     }
                 }
             });
         }
-        function comment_open() { //덧글 전체 내용 받아오는 함수.
-             $.ajax({
-                type: "GET",
-                url: "/postbox/comment",
-                data: {},
-                success: function (response) {
-                    let rows = response["comments"]
-                    for (let i = 0; i < rows.length; i++){
-                        let comment = rows[i]['comment'] //덧글
-                        let co_num = rows[i]['co_num'] //덧글 번호
 
-                        let temp_html03 = `<div class="card" id="card">
-                                           <p>${comment}</p>
-                                           <button onclick="delete_comment(${co_num})" type="button" class="btn btn-outline-danger">삭제하기</button>
-                                           </div>`
-
-                        $('#card-box').append(temp_html03)
-                    }
-                }
-            });
-        }
-         function save_comment() { //덧글을 db에 저장하고, 새로고침되어 덧글이 보이게함.
-            let comments = $('#comment').val()
-            $.ajax({
-                type: "POST",
-                url: "/postbox/comment",
-                data: {comment_give: comments},
-                success: function (response) {
-                    alert(response["msg"])
-                    window.location.reload()
-                }
-            });
-        }
-        function delete_comment(co_num) { //덧글 삭제
-            $.ajax({
-                type: "POST",
-                url: "/postbox/comment_delete",
-                data: {co_num_give: co_num},
-                success: function (response) {
-                    alert(response["msg"])
-                    window.location.reload()
-                }
-            });
-        }
+        // function comment_open() { //덧글 전체 내용 받아오는 함수.
+        //      $.ajax({
+        //         type: "GET",
+        //         url: "/postbox/comment",
+        //         data: {},
+        //         success: function (response) {
+        //             let rows = response["comments"]
+        //             for (let i = 0; i < rows.length; i++){
+        //                 let comment = rows[i]['comment'] //덧글
+        //                 let co_num = rows[i]['co_num'] //덧글 번호
+        //
+        //                 let temp_html03 = `<div class="card" id="card">
+        //                                    <p>${comment}</p>
+        //                                    <button onclick="delete_comment(${co_num})" type="button" class="btn btn-outline-danger">삭제하기</button>
+        //                                    </div>`
+        //
+        //                 $('#card-box').append(temp_html03)
+        //             }
+        //         }
+        //     });
+        // }
+        //  function save_comment() { //덧글을 db에 저장하고, 새로고침되어 덧글이 보이게함.
+        //     let comments = $('#comment').val()
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/postbox/comment",
+        //         data: {comment_give: comments},
+        //         success: function (response) {
+        //             alert(response["msg"])
+        //             window.location.reload()
+        //         }
+        //     });
+        // }
+        // function delete_comment(co_num) { //덧글 삭제
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/postbox/comment_delete",
+        //         data: {co_num_give: co_num},
+        //         success: function (response) {
+        //             alert(response["msg"])
+        //             window.location.reload()
+        //         }
+        //     });
+        // }
     </script>
 
 </head>
@@ -264,16 +264,15 @@
 <body>
     <div class="postbox">
         <div class="post-title" id="post-title">
-            <span class="on-off">🙋Off🙋</span>
-            <span class="address">경기</span>
-            <p><strong>게시글 제목입니다.게시글 제목입니다.</strong></p>
+{#             <span class="on-off">🙋Off🙋</span>#}
+{#             <span class="address">경기</span>#}
+{#             <p><strong>게시글 제목입니다.게시글 제목입니다.</strong></p>#}
         </div>
         <div class="text-box">
             <div class="text" id="text">
-                <p>작성자 : </p>
-                <p>스터디 시간 :</p>
-                <p>게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.
-                </p>
+{#              <p>작성자 : </p>#}
+{#                <p>스터디 시간 :</p>#}
+{#                <p>게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.게시물 내용입니다.</p>#}
             </div>
             <div class="close">
                 <button onclick="history.back()" type="button" class="btn btn-outline-secondary">닫기</button>
