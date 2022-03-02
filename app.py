@@ -2,8 +2,9 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 from pymongo import MongoClient
+# 보안을 위해 db 주소는 일부러 빼고 커밋함.
 client = MongoClient('mongodb+srv://test:sparta@cluster0.ywgct.mongodb.net/Cluster0?retryWrites=true&w=majority')
-db = client.toy   #db폴더명 toy로 설정.
+db = client.toy
 
 # # - 넘버링 - num
 # # - 작성자 - name
